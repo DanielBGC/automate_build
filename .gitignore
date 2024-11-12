@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+.cursorrules
+
+# environment variables
+.env
+.env.local
