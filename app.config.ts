@@ -45,8 +45,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       projectId: "f32ef8b0-e068-4b69-8699-2ccdbccfd20c",
     },
-    apiUrl: getEnvVar("API_URL"),
-    apiKey: getEnvVar("API_KEY"),
-    appEnv: getEnvVar("APP_ENV"),
+    apiUrl: process.env.EXPO_PUBLIC_API_URL,
+    apiKey: process.env.EXPO_PUBLIC_API_KEY,
+    appEnv: process.env.EXPO_PUBLIC_APP_ENV,
   },
 });
