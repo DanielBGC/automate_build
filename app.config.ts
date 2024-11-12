@@ -47,6 +47,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     apiUrl: process.env.EXPO_PUBLIC_API_URL,
     apiKey: process.env.EXPO_PUBLIC_API_KEY,
-    appEnv: process.env.EXPO_PUBLIC_APP_ENV,
+    appEnv: process.env.APP_ENV,
   },
 });

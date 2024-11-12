@@ -32,13 +32,6 @@
       "ios": {
         "buildConfiguration": "Release",
         "distribution": "internal"
-      },
-      "env": {
-        "APP_ENV": "preview",
-        "API_KEY": "$(API_KEY_PREVIEW)",
-        "EXPO_PUBLIC_APP_ENV": "$EXPO_PUBLIC_APP_ENV_PREVIEW",
-        "EXPO_PUBLIC_API_URL": "EXPO_PUBLIC_API_URL_PREVIEW",
-        "EXPO_PUBLIC_API_KEY": "$(EXPO_PUBLIC_API_KEY_PREVIEW)"
       }
     },
     "production": {

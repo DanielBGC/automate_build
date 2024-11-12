@@ -5,6 +5,7 @@ name: EAS Build
 on:
   push:
     branches:
+      - preview # Executa quando houver push na branch preview
       - main # Executa quando houver push na branch main
   pull_request:
     branches:
@@ -60,6 +61,9 @@ jobs:
       # Executa build para ambiente de preview (apenas APK Android)
       - name: Build Preview APK
         if: github.ref == 'refs/heads/preview'
+        env:
+          EXPO_PUBLIC_API_KEY: ${{ secrets.API_KEY_PREVIEW }}
+          APP_ENV: ${{ secrets.APP_ENV_PREVIEW }}
         run: |
           eas build --platform android --profile preview --non-interactive
           echo "Preview build initiated"
