@@ -19,15 +19,15 @@
         "APP_ENV": "development",
         "API_KEY": "$(API_KEY_DEV)",
         "EXPO_PUBLIC_APP_ENV": "development",
-        "EXPO_PUBLIC_API_KEY": "$(API_KEY_DEV)"
+        "EXPO_PUBLIC_API_URL": "EXPO_PUBLIC_API_URL_DEV",
+        "EXPO_PUBLIC_API_KEY": "EXPO_PUBLIC_API_KEY_DEV"
       }
     },
     "preview": {
       "distribution": "internal",
       "autoIncrement": true,
       "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease"
+        "buildType": "apk"
       },
       "ios": {
         "buildConfiguration": "Release",
@@ -36,9 +36,9 @@
       "env": {
         "APP_ENV": "preview",
         "API_KEY": "$(API_KEY_PREVIEW)",
-        "EXPO_PUBLIC_APP_ENV": "preview",
+        "EXPO_PUBLIC_APP_ENV": "$EXPO_PUBLIC_APP_ENV_PREVIEW",
         "EXPO_PUBLIC_API_URL": "EXPO_PUBLIC_API_URL_PREVIEW",
-        "EXPO_PUBLIC_API_KEY": "EXPO_PUBLIC_API_KEY_PREVIEW"
+        "EXPO_PUBLIC_API_KEY": "$(EXPO_PUBLIC_API_KEY_PREVIEW)"
       }
     },
     "production": {
