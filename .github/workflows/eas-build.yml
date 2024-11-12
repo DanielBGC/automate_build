@@ -5,11 +5,9 @@ name: EAS Build
 on:
   push:
     branches:
-      - preview # Executa quando houver push na branch preview
       - main # Executa quando houver push na branch main
   pull_request:
     branches:
-      - preview # Executa quando houver PR para preview
       - main # Executa quando houver PR para main
 
 jobs:

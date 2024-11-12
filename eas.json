@@ -23,6 +23,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "autoIncrement": true,
       "android": {
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
@@ -36,7 +37,7 @@
         "API_KEY": "$(API_KEY_PREVIEW)",
         "EXPO_PUBLIC_APP_ENV": "preview",
         "EXPO_PUBLIC_API_URL": "http://api.preview.com",
-        "EXPO_PUBLIC_API_KEY": "$(API_KEY_PREVIEW)"
+        "EXPO_PUBLIC_API_KEY": "$API_KEY_PREVIEW"
       }
     },
     "production": {
@@ -54,7 +55,7 @@
         "API_KEY": "$(API_KEY_PROD)",
         "EXPO_PUBLIC_APP_ENV": "production",
         "EXPO_PUBLIC_API_URL": "https://api.production.com",
-        "EXPO_PUBLIC_API_KEY": "$(API_KEY_PROD)"
+        "EXPO_PUBLIC_API_KEY": "$API_KEY_PROD"
       }
     }
   },
