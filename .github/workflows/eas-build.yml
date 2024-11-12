@@ -1,32 +1,43 @@
+# Nome do workflow que aparecerá na interface do GitHub Actions
 name: EAS Build
+
+# Define quando o workflow será executado
 on:
   push:
     branches:
-      - preview
-      - main
+      - preview # Executa quando houver push na branch preview
+      - main # Executa quando houver push na branch main
   pull_request:
     branches:
-      - preview
-      - main
+      - preview # Executa quando houver PR para preview
+      - main # Executa quando houver PR para main
 
 jobs:
   build:
     name: Install and build
     runs-on: ubuntu-latest
+    # Define dinamicamente o ambiente baseado na branch
+    # Se for preview, usa ambiente preview, senão usa production
+    environment: ${{ github.ref == 'refs/heads/preview' && 'preview' || 'production' }}
+
     steps:
+      # Faz checkout do código do repositório
       - uses: actions/checkout@v3
 
+      # Configura o Node.js com cache do npm para builds mais rápidas
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
           cache: npm
 
+      # Configura o Expo CLI e EAS CLI com o token de autenticação
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      # Configura cache para dependências do npm
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -35,38 +46,53 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # Instala as dependências do projeto usando npm ci (mais rápido e seguro que npm install)
       - name: Install dependencies
         run: npm ci
 
+      # Verifica se o EXPO_TOKEN está configurado corretamente
+      - name: Check Environment
+        run: |
+          if [ -n "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "EXPO_TOKEN is set"
+          else
+            echo "EXPO_TOKEN is not set"
+          fi
+
+      # Executa build para ambiente de preview (apenas APK Android)
       - name: Build Preview APK
         if: github.ref == 'refs/heads/preview'
         run: |
           eas build --platform android --profile preview --non-interactive
           echo "Preview build initiated"
 
+      # Executa build para produção (Android e iOS)
       - name: Build Production Bundle
         if: github.ref == 'refs/heads/main'
         run: |
           eas build --platform all --profile production --non-interactive
           echo "Production build initiated"
 
+      # Cria uma release no GitHub quando for build de produção
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}
+          tag_name: v${{ github.run_number }} # Usa o número da execução como versão
           release_name: Release v${{ github.run_number }}
           draft: false
           prerelease: false
 
+      # Notifica sobre sucesso do build
       - name: Notify on Success
         if: success()
         run: |
           echo "Build completed successfully!"
           # Aqui você pode adicionar integrações com Slack, Discord, etc.
 
+      # Notifica sobre falha do build
       - name: Notify on Failure
         if: failure()
         run: |
