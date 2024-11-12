@@ -25,6 +25,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
+    package: "com.automatebuildapp.app",
   },
   extra: {
     eas: {
