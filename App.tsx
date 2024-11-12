@@ -16,6 +16,9 @@ export default function App() {
         Acessando a API:{" "}
         <Text style={{ fontWeight: "bold" }}> {extra.apiUrl}</Text>
       </Text>
+      <Text style={{ fontSize: 16, fontWeight: "normal" }}>
+        API KEY: <Text style={{ fontWeight: "bold" }}> {extra.apiKey}</Text>
+      </Text>
       <StatusBar style="auto" />
     </View>
   );

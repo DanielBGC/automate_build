@@ -1,6 +1,20 @@
 import "dotenv/config";
 import { ExpoConfig, ConfigContext } from "expo/config";
 
+function getEnvVar(name: string) {
+  const isEasBuild = process.env.EAS_BUILD_PLATFORM !== undefined;
+  const isProd = process.env.APP_ENV === "production";
+
+  console.log("isEasBuild", isEasBuild);
+
+  if (isEasBuild) {
+    return process.env[`EXPO_PUBLIC_${name}`] || process.env[name];
+  }
+
+  // Desenvolvimento local
+  return process.env[name];
+}
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   name:
     process.env.APP_ENV === "preview"
@@ -31,7 +45,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       projectId: "f32ef8b0-e068-4b69-8699-2ccdbccfd20c",
     },
-    apiUrl: process.env.API_URL,
-    appEnv: process.env.APP_ENV,
+    apiUrl: getEnvVar("API_URL"),
+    apiKey: getEnvVar("API_KEY"),
+    appEnv: getEnvVar("APP_ENV"),
   },
 });

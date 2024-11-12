@@ -1,62 +1,73 @@
 {
-    "cli": {
-      "version": ">= 7.3.0",
-      "requireCommit": true
-    },
-    "build": {
-      "development": {
-        "developmentClient": true,
-        "distribution": "internal",
-        "android": {
-          "buildType": "apk",
-          "gradleCommand": ":app:assembleDebug"
-        },
-        "ios": {
-          "buildConfiguration": "Debug"
-        },
-        "env": {
-          "APP_ENV": "development"
-        }
+  "cli": {
+    "version": ">= 7.3.0",
+    "requireCommit": true
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
       },
-      "preview": {
-        "distribution": "internal",
-        "android": {
-          "buildType": "apk",
-          "gradleCommand": ":app:assembleRelease"
-        },
-        "ios": {
-          "buildConfiguration": "Release",
-          "distribution": "internal"
-        },
-        "env": {
-          "APP_ENV": "preview"
-        }
+      "ios": {
+        "buildConfiguration": "Debug"
       },
-      "production": {
-        "autoIncrement": true,
-        "android": {
-          "buildType": "app-bundle",
-          "gradleCommand": ":app:bundleRelease"
-        },
-        "ios": {
-          "distribution": "store",
-          "autoIncrement": true
-        },
-        "env": {
-          "APP_ENV": "production"
-        }
+      "env": {
+        "APP_ENV": "development",
+        "API_KEY": "$(API_KEY_DEV)",
+        "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_API_KEY": "$(API_KEY_DEV)"
       }
     },
-    "submit": {
-      "production": {
-        "android": {
-          "track": "production"
-        },
-        "ios": {
-          "appleId": "your-apple-id@example.com",
-          "ascAppId": "your-app-store-connect-app-id",
-          "appleTeamId": "your-apple-team-id"
-        }
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "ios": {
+        "buildConfiguration": "Release",
+        "distribution": "internal"
+      },
+      "env": {
+        "APP_ENV": "preview",
+        "API_KEY": "$(API_KEY_PREVIEW)",
+        "EXPO_PUBLIC_APP_ENV": "preview",
+        "EXPO_PUBLIC_API_URL": "http://api.preview.com",
+        "EXPO_PUBLIC_API_KEY": "$(API_KEY_PREVIEW)"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease"
+      },
+      "ios": {
+        "distribution": "store",
+        "autoIncrement": true
+      },
+      "env": {
+        "APP_ENV": "production",
+        "API_KEY": "$(API_KEY_PROD)",
+        "EXPO_PUBLIC_APP_ENV": "production",
+        "EXPO_PUBLIC_API_URL": "https://api.production.com",
+        "EXPO_PUBLIC_API_KEY": "$(API_KEY_PROD)"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "production"
+      },
+      "ios": {
+        "appleId": "your-apple-id@example.com",
+        "ascAppId": "your-app-store-connect-app-id",
+        "appleTeamId": "your-apple-team-id"
       }
     }
   }
+}
