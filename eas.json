@@ -1,0 +1,62 @@
+{
+    "cli": {
+      "version": ">= 7.3.0",
+      "requireCommit": true
+    },
+    "build": {
+      "development": {
+        "developmentClient": true,
+        "distribution": "internal",
+        "android": {
+          "buildType": "apk",
+          "gradleCommand": ":app:assembleDebug"
+        },
+        "ios": {
+          "buildConfiguration": "Debug"
+        },
+        "env": {
+          "APP_ENV": "development"
+        }
+      },
+      "preview": {
+        "distribution": "internal",
+        "android": {
+          "buildType": "apk",
+          "gradleCommand": ":app:assembleRelease"
+        },
+        "ios": {
+          "buildConfiguration": "Release",
+          "distribution": "internal"
+        },
+        "env": {
+          "APP_ENV": "preview"
+        }
+      },
+      "production": {
+        "autoIncrement": true,
+        "android": {
+          "buildType": "app-bundle",
+          "gradleCommand": ":app:bundleRelease"
+        },
+        "ios": {
+          "distribution": "store",
+          "autoIncrement": true
+        },
+        "env": {
+          "APP_ENV": "production"
+        }
+      }
+    },
+    "submit": {
+      "production": {
+        "android": {
+          "track": "production"
+        },
+        "ios": {
+          "appleId": "your-apple-id@example.com",
+          "ascAppId": "your-app-store-connect-app-id",
+          "appleTeamId": "your-apple-team-id"
+        }
+      }
+    }
+  }

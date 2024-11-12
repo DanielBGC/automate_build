@@ -1,0 +1,74 @@
+name: EAS Build
+on:
+  push:
+    branches:
+      - preview
+      - main
+  pull_request:
+    branches:
+      - preview
+      - main
+
+jobs:
+  build:
+    name: Install and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Preview APK
+        if: github.ref == 'refs/heads/preview'
+        run: |
+          eas build --platform android --profile preview --non-interactive
+          echo "Preview build initiated"
+
+      - name: Build Production Bundle
+        if: github.ref == 'refs/heads/main'
+        run: |
+          eas build --platform all --profile production --non-interactive
+          echo "Production build initiated"
+
+      - name: Create Release
+        if: github.ref == 'refs/heads/main'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Notify on Success
+        if: success()
+        run: |
+          echo "Build completed successfully!"
+          # Aqui você pode adicionar integrações com Slack, Discord, etc.
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "Build failed!"
+          # Aqui você pode adicionar integrações com Slack, Discord, etc.
